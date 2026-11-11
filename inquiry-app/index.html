@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maru Studio</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      color: #222;
+      line-height: 1.6;
+      word-break: keep-all;
+      background: #fcfaff;
+    }
+    img { display: block; width: 100%; object-fit: cover; }
+
+    /* 맨 위 이름 줄 */
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 18px 6%; background: #fff; border-bottom: 1px solid #ece4fb;
+      position: sticky; top: 0; z-index: 10;
+    }
+    .logo { font-size: 1.72rem; font-weight: 700; color: #6d28d9; }
+
+    .btn {
+      display: inline-block; padding: 12px 28px; border: none; border-radius: 999px;
+      background: #6d28d9; color: #fff; font-size: 1rem; font-weight: 600;
+      cursor: pointer; text-decoration: none;
+    }
+    .btn:hover { background: #5b21b6; }
+    .btn.small { padding: 8px 20px; font-size: 0.9rem; }
+
+    /* 첫 큰 그림 영역 */
+    .hero {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;
+      padding: 72px 6%; background: linear-gradient(135deg, #ffffff 0%, #f3ecff 100%);
+    }
+    .hero h1 { font-size: 2.4rem; line-height: 1.3; margin-bottom: 18px; }
+    .accent { color: #6d28d9; }
+    .hero img { box-shadow: 0 12px 32px rgba(109, 40, 217, 0.25); }
+    .hero p { font-size: 1.1rem; color: #555; margin-bottom: 28px; }
+    .hero img { height: 380px; border-radius: 20px; }
+
+    section { padding: 72px 6%; }
+    .section-title { text-align: center; font-size: 1.8rem; margin-bottom: 12px; }
+    .section-sub { text-align: center; color: #666; margin-bottom: 44px; }
+
+    /* 서비스 카드 */
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+    .card {
+      background: #fff; border-radius: 16px; overflow: hidden;
+      box-shadow: 0 6px 20px rgba(109, 40, 217, 0.10);
+    }
+    .card img { height: 200px; }
+    .card-body { padding: 22px; }
+    .card-body h3 { font-size: 1.2rem; margin-bottom: 8px; color: #5b21b6; }
+    .card-body p { color: #555; }
+
+    /* 이용 방법 */
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+    .step { text-align: center; padding: 28px; background: #fff; border-radius: 16px; border-top: 4px solid #a78bfa; }
+    .step-num {
+      width: 44px; height: 44px; margin: 0 auto 14px; border-radius: 50%;
+      background: #ede4ff; color: #6d28d9; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    /* 맨 아래 문의 창 */
+    .contact { background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%); color: #fff; }
+    .contact .section-sub { color: #fff; opacity: 0.9; }
+    .form-box {
+      max-width: 620px; margin: 0 auto; padding: 36px;
+      background: #fff; color: #222; border-radius: 20px;
+    }
+    .field { margin-bottom: 20px; }
+    .field label { display: block; font-weight: 600; margin-bottom: 6px; }
+    .field input, .field textarea {
+      width: 100%; padding: 12px 14px; font-size: 1rem; font-family: inherit;
+      border: 1px solid #d9cdf2; border-radius: 10px;
+    }
+    .field textarea { min-height: 160px; resize: vertical; }
+    .field input:focus, .field textarea:focus { outline: 2px solid #6d28d9; border-color: transparent; }
+    .field.has-error input, .field.has-error textarea { border-color: #e03131; }
+    .error-text { display: none; color: #e03131; font-size: 0.9rem; margin-top: 4px; }
+    .field.has-error .error-text { display: block; }
+    .notice { font-size: 0.9rem; color: #666; margin-bottom: 20px; }
+    .form-box .btn { width: 100%; }
+    .done { display: none; text-align: center; padding: 24px 0; }
+    .done h3 { font-size: 1.4rem; margin-bottom: 8px; color: #6d28d9; }
+
+    footer { text-align: center; padding: 36px 6%; color: #888; font-size: 0.88rem; background: #f7f3ff; border-top: 1px solid #ece4fb; }
+    footer .biz-name { font-weight: 700; color: #6d28d9; font-size: 1rem; margin-bottom: 10px; }
+    footer .biz-info span { display: inline-block; margin: 2px 10px; }
+    footer .copy { margin-top: 12px; color: #aaa; }
+
+    /* 휴대폰 화면 */
+    @media (max-width: 800px) {
+      .hero { grid-template-columns: 1fr; padding: 40px 6%; }
+      .hero h1 { font-size: 1.8rem; }
+      .hero img { height: 240px; }
+      .cards, .steps { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">Maru Studio</div>
+    <button class="btn small" onclick="openInquiry()">문의하기</button>
+  </header>
+
+  <div class="hero">
+    <div>
+      <h1>고객님의 일을<br /><span class="accent">더 쉽고 빠르게</span> 도와드려요</h1>
+      <p>처음부터 끝까지 꼼꼼하게 챙겨 드려요. 궁금한 점이 있으면 언제든 편하게 물어보셔도 돼요.</p>
+      <button class="btn" onclick="openInquiry()">문의하기</button>
+    </div>
+    <img src="https://picsum.photos/seed/office-hero/900/700" alt="서비스 대표 사진" />
+  </div>
+
+  <section>
+    <h2 class="section-title">이런 서비스를 제공해요</h2>
+    <p class="section-sub">고객님께 꼭 맞는 서비스를 골라 보실 수 있어요.</p>
+    <div class="cards">
+      <div class="card">
+        <img src="https://picsum.photos/seed/service-one/600/400" alt="첫 번째 서비스 사진" />
+        <div class="card-body">
+          <h3>상담 서비스</h3>
+          <p>고객님의 상황을 듣고 가장 알맞은 방법을 함께 찾아요.</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://picsum.photos/seed/service-two/600/400" alt="두 번째 서비스 사진" />
+        <div class="card-body">
+          <h3>맞춤 제작</h3>
+          <p>고객님이 원하는 모습 그대로 정성껏 만들어 드려요.</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://picsum.photos/seed/service-three/600/400" alt="세 번째 서비스 사진" />
+        <div class="card-body">
+          <h3>사후 관리</h3>
+          <p>끝난 뒤에도 불편한 점이 없는지 꾸준히 살펴 드려요.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:#f5f0ff;">
+    <h2 class="section-title">이렇게 이용하시면 돼요</h2>
+    <p class="section-sub">세 단계면 충분해요.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <p>문의 창에 궁금한 점을 적어서 보내 주시면 돼요.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <p>내용을 확인하고 고객님 이메일로 답장을 드려요.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <p>고객님과 일정을 맞춰서 서비스를 시작해요.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <h2 class="section-title">궁금한 점은 언제든 물어보셔도 돼요</h2>
+    <p class="section-sub">아래에 적어서 보내 주시면 고객님 이메일로 답장을 드려요.</p>
+
+    <div class="form-box">
+      <form id="inquiry-form" novalidate>
+        <div class="field">
+          <label for="company">회사명(상호)</label>
+          <input id="company" name="company" type="text" placeholder="예: OO상사" />
+          <p class="error-text">회사명이나 상호를 적어 주셔야 해요.</p>
+        </div>
+        <div class="field">
+          <label for="email">이메일</label>
+          <input id="email" name="email" type="email" placeholder="example@email.com" />
+          <p class="error-text">답장을 받으실 이메일을 바르게 적어 주셔야 해요.</p>
+        </div>
+        <div class="field">
+          <label for="message">문의 내용</label>
+          <textarea id="message" name="message" placeholder="궁금하신 점을 편하게 적어 주시면 돼요."></textarea>
+          <p class="error-text">문의 내용을 적어 주셔야 해요.</p>
+        </div>
+        <p class="notice">입력하신 이메일은 답변에만 사용해요.</p>
+        <button type="submit" class="btn">보내기</button>
+      </form>
+
+      <div class="done" id="done">
+        <h3>문의가 접수됐어요</h3>
+        <p>내용을 확인하고 고객님 이메일로 답장을 드려요.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="biz-name">Maru Studio</div>
+    <div class="biz-info">
+      <span>대표: 홍길동</span>
+      <span>사업자등록번호: 000-00-00000</span>
+      <span>통신판매업 신고번호: 제0000-서울00-0000호</span>
+    </div>
+    <div class="biz-info">
+      <span>주소: 서울특별시 OO구 OO로 00, 0층</span>
+      <span>전화: 02-000-0000</span>
+      <span>이메일: hello@marustudio.com</span>
+    </div>
+    <div class="copy">© 2026 Maru Studio. 모든 권리를 가지고 있어요.</div>
+  </footer>
+
+  <script>
+    // 위쪽 문의하기 버튼을 누르면 맨 아래 문의 창으로 내려가요.
+    function openInquiry() {
+      document.getElementById("contact").scrollIntoView();
+      document.getElementById("company").focus({ preventScroll: true });
+    }
+
+    const form = document.getElementById("inquiry-form");
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const company = form.elements["company"].value.trim();
+      const email = form.elements["email"].value.trim();
+      const message = form.elements["message"].value.trim();
+
+      const checks = [
+        [form.elements["company"], company !== ""],
+        [form.elements["email"], /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)],
+        [form.elements["message"], message !== ""],
+      ];
+      let ok = true;
+      checks.forEach(([input, valid]) => {
+        input.closest(".field").classList.toggle("has-error", !valid);
+        if (!valid) ok = false;
+      });
+      if (!ok) return;
+
+      // TODO: 다음 단계에서 사장님 이메일로 보내고 저장하는 기능을 붙여요.
+      form.style.display = "none";
+      document.getElementById("done").style.display = "block";
+    });
+  </script>
+</body>
+</html>
